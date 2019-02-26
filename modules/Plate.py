@@ -5,7 +5,7 @@ import logging;
 import pytesseract as tes;
 from PIL import Image;
 from modules.TrainingCharacter import *;
-from matplotlib import pyplot as plt;
+from matplotlib.pyplot as plt;
 from copy import deepcopy, copy;
 from logging.config import fileConfig;
 from PIL import Image as PIL_Image;
@@ -166,6 +166,7 @@ class Plate:
 			self.plot(plt, 325, self.plate_image_char, "Characters outlined");
 			cv2.imwrite('result4.jpg',self.plate_image_char)
 			plt.subplot(326);plt.text(0,0,self.plate_number, fontsize=30);plt.xticks([]);plt.yticks([]);
+			cv2.imwrite('result5.jpg',self.plate_number)
 		plt.tight_layout();
 		plt.show();
 		return True;
