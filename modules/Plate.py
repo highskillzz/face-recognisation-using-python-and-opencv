@@ -8,6 +8,7 @@ from modules.TrainingCharacter import *;
 from matplotlib import pyplot as plt;
 from copy import deepcopy, copy;
 from logging.config import fileConfig;
+from PIL import Image as PIL_Image;
 import cv2
 
 # logger setup
@@ -139,7 +140,13 @@ class Plate:
 		figure.xticks([]);
 		figure.yticks([]);
 		#cv2.imshow("char",self.plate_characters[0]);
-		figure.imshow(image)
+		#figure.imshow(image)
+		#cv2.imshow(image)
+		cv2.imwrite('result.jpg',image);
+		img_ori = PIL_Image.open('result.jpg')
+        	axis('off')
+        	imshow(img_ori)
+        	show()
 		return True;
 
 	""" Show our results """
