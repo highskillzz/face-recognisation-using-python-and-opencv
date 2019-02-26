@@ -144,7 +144,7 @@ class Plate:
 		#cv2.imshow(image)
 		cv2.imwrite('result.jpg',image);
 		img_ori = PIL_Image.open('result.jpg')
-        	axis('off')
+        	
         	imshow(img_ori)
         	show()
 		return True;
