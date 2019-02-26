@@ -5,10 +5,10 @@ import logging;
 import pytesseract as tes;
 from PIL import Image;
 from modules.TrainingCharacter import *;
-from matplotlib.pyplot as plt;
 from copy import deepcopy, copy;
 from logging.config import fileConfig;
 from PIL import Image as PIL_Image;
+import matplotlib.pyplot as plt;
 import cv2
 
 # logger setup
