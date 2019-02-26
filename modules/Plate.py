@@ -150,12 +150,15 @@ class Plate:
 
 	""" Show our results """
 	def showResults(self):
-		cv2.imwrite('result.jpg',self.original_image)
+		
 		plt.figure(self.plate_number);
 
 		self.plot(plt, 321, self.original_image, "Original image");
+		cv2.imwrite('result.jpg',self.original_image)
 		self.plot(plt, 322, self.gray_image, "Threshold image");
+		cv2.imwrite('result1.jpg',self.gray_image)
 		self.plot(plt, 323, self.plate_located_image, "Plate located");
+		cv2.imwrite('result2.jpg',self.plate_located_image)
 		
 		if self.plate_image is not None:
 			self.plot(plt, 324, self.plate_image, "License plate");
