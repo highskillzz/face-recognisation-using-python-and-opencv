@@ -135,12 +135,11 @@ class Plate:
 	""" Subplot generator for images """
 	def plot(self, figure, subplot, image, title):
 		figure.subplot(subplot);
-		#figure.imshow(image);
-		figure.show(image);
 		figure.xlabel(title);
 		figure.xticks([]);
 		figure.yticks([]);
 		#cv2.imshow("char",self.plate_characters[0]);
+		figure.imshow(image)
 		return True;
 
 	""" Show our results """
