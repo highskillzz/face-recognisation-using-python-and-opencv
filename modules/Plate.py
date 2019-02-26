@@ -141,11 +141,10 @@ class Plate:
 		figure.yticks([]);
 		#cv2.imshow("char",self.plate_characters[0]);
 		#figure.imshow(image)
-		#cv2.imshow(image)
+		cv2.imshow(image)
 		cv2.imwrite('result.jpg',image);
 		img_ori = PIL_Image.open('result.jpg')
-        	
-        	imshow(img_ori)
+        	figure.imshow(img_ori)
         	show()
 		return True;
 
