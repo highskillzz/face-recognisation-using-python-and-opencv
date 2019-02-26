@@ -17,19 +17,18 @@ logger = logging.getLogger();
 
 class Plate:
 	""" Class for the license plates """
-	def __init__(self, image):				### Plate Class Vars ###
-		self.original_image = image;			# original image of analysis
-		self.plate_located_image = deepcopy(image);	# original image with plate hilighted
-		self.plate_image = None;			# license plate cropped
-		self.plate_image_char = None;			# license plate cropped, chars outlined
-		self.gray_image = None;				# original image - grayscale for analysis
-		self.plate_number = "";				# plate number
-		self.roi = [];					# regions of interest for plates
-		self.plate_characters = [];			# cropped images of characters on plate
+	def __init__(self, image):				
+		self.original_image = image;		
+		self.plate_located_image = deepcopy(image);
+		self.plate_image = None;		
+		self.plate_image_char = None;
+		self.gray_image = None;				
+		self.plate_number = "";	
+		self.roi = [];				
+		self.plate_characters = [];
 		logger.info("New plate created.");
 
 	def preprocess(self,image):
-		""" Converts original image to grayscale for analysis """
 		logger.info("Image converted to grayscale");
 		self.gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY);
 		self.gray_image = cv2.medianBlur(self.gray_image, 5);
@@ -40,7 +39,7 @@ class Plate:
 
 
 
-	""" Algorithm to find plate and read characters """
+	
 	def plateSearch(self, characters_array):
 		self.preprocess(deepcopy(self.original_image));
 		self.findContour(self.gray_image);
@@ -50,8 +49,6 @@ class Plate:
 		self.showResults();
 		return True;
 
-	""" Searches for a contour that looks like a license plate
-	in the image of a car """
 	def findContour(self,image):
 		_,contours,_ = cv2.findContours(image, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE);
 
@@ -60,19 +57,17 @@ class Plate:
 		for contour in contours:
 			area = cv2.contourArea(contour);
 
-			# rough range of areas of a license plate
+	
 			if area > 6000 and area < 40000:
 				[x,y,w,h] = cv2.boundingRect(contour);
 
-			# rough dimensions of a license plate
+	
 			if w > 100 and w < 200 and h > 60 and h < 100:
 				self.roi.append([x,y,w,h]);
 				cv2.rectangle(self.plate_located_image, (x,y), (x+w, y+h), (0,255,0), 10);
 		logger.info("%s potential plates found.", str(len(self.roi)));
 		return True;
 
-	""" If a license plate contour has been found, crop
-	out the contour and create a new image """
 	def cropPlate(self):
 		if len(self.roi) > 1:
 			[x,y,w,h] = self.roi[0];
@@ -80,23 +75,17 @@ class Plate:
 			self.plate_image_char = deepcopy(self.plate_image);
 		return True;
 
-	""" Subalgorithm to read the license plate number using the
-	cropped image of a license plate """
 	def readPlateNumber(self, characters_array):
 		self.findCharacterContour();
 		self.tesseractCharacter();
 		return True;
 
-	""" Crops individual characters out of a plate image 
-	and converts it to grayscale for comparison """
 	def cropCharacter(self, dimensions):
 		[x,y,w,h] = dimensions;
 		character = deepcopy(self.plate_image);
 		character = deepcopy(character[y:y+h,x:x+w]);
 		return character;
 
-	""" Finds contours in the cropped image of a license plate
-	that fit the dimension range of a letter or number """
 	def findCharacterContour(self):
 		gray_plate = cv2.cvtColor(deepcopy(self.plate_image), cv2.COLOR_BGR2GRAY)
 
@@ -133,7 +122,7 @@ class Plate:
 			self.plate_number += char.upper();
 		return True;
 
-	""" Subplot generator for images """
+
 	def plot(self, figure, subplot, image, title):
 		figure.subplot(subplot);
 		figure.xlabel(title);
@@ -148,7 +137,7 @@ class Plate:
         	#show()
 		return True;
 
-	""" Show our results """
+
 	def showResults(self):
 		
 		plt.figure(self.plate_number);
@@ -165,9 +154,8 @@ class Plate:
 			cv2.imwrite('result3.jpg',self.plate_image)
 			self.plot(plt, 325, self.plate_image_char, "Characters outlined");
 			cv2.imwrite('result4.jpg',self.plate_image_char)
-			plt.subplot(326);plt.text(0,0,self.plate_number, fontsize=30);plt.xticks([]);plt.yticks([]);
+			plt.subplot(326);plt.text(0,0,self.plate_number, fontsize=30);plt.xticks([]);plt.yticks([]);print(self.plate_number)
 			#cv2.imwrite('result5.jpg',self.plate_number)
 		plt.tight_layout();
 		plt.show()
 		return True;
-
